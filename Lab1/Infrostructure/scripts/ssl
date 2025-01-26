@@ -1,0 +1,20 @@
+keytool -genkeypair -alias payara-key -keyalg RSA -keysize 2048 -validity 365 -keystore payara.keystore
+java -jar payara-micro6-2025.1.jar \
+  --port 8443 \
+  --sslPort 8443 \
+  --sslKeyStore payara.keystore \
+  --sslKeyStorePassword xyu \
+  --deploy WorkerService-0.0.1-SNAPSHOT.war
+
+java -jar payara-micro-6.2025.1.jar \
+  --port 8443 \
+  --sslPort 8443 \
+  --sslKeyStore payara.keystore \
+  --sslKeyStorePassword xyu \
+  --deploy WorkerService-0.0.1-SNAPSHOT.war
+
+keytool -export -alias payara-key -file payara.crt -keystore payara.keystore
+keytool -import -file payara.crt -alias payara-key -keystore spring.truststore
+keytool -export -alias springkey -file spring.crt -keystore spring.keystore
+keytool -import -file spring.crt -alias springkey -keystore payara.truststore
+
