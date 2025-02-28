@@ -1,0 +1,103 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://soa.workerservice/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://soa.workerservice/">
+
+    <types>
+        <xsd:schema targetNamespace="http://soa.workerservice/">
+            <!-- Запрос для найма работника -->
+            <xsd:element name="hirePersonRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="personId" type="xsd:string"/>
+                        <xsd:element name="position" type="xsd:string"/>
+                        <xsd:element name="startDate" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <!-- Ответ для найма работника -->
+            <xsd:element name="hirePersonResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="result" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- Запрос для увольнения работника -->
+            <xsd:element name="fireWorkerRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <!-- Ответ для увольнения работника -->
+            <xsd:element name="fireWorkerResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="result" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <!-- Определение сообщений -->
+    <message name="hirePersonRequest">
+        <part name="parameters" element="tns:hirePersonRequest"/>
+    </message>
+    <message name="hirePersonResponse">
+        <part name="parameters" element="tns:hirePersonResponse"/>
+    </message>
+    <message name="fireWorkerRequest">
+        <part name="parameters" element="tns:fireWorkerRequest"/>
+    </message>
+    <message name="fireWorkerResponse">
+        <part name="parameters" element="tns:fireWorkerResponse"/>
+    </message>
+
+    <!-- Определение порта (операции) -->
+    <portType name="WorkerService">
+        <operation name="hirePerson">
+            <input message="tns:hirePersonRequest"/>
+            <output message="tns:hirePersonResponse"/>
+        </operation>
+        <operation name="fireWorker">
+            <input message="tns:fireWorkerRequest"/>
+            <output message="tns:fireWorkerResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Привязка к SOAP -->
+    <binding name="WorkerServiceBinding" type="tns:WorkerService">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="hirePerson">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="fireWorker">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Определение сервиса -->
+    <service name="WorkerService">
+        <port name="WorkerServicePort" binding="tns:WorkerServiceBinding">
+            <soap:port binding="tns:WorkerServicePort" name="WorkerServicePort"/>
+            <soap:address location="http://localhost:8080/workerservice"/>
+        </port>
+    </service>
+</definitions>

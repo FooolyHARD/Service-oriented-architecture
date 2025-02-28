@@ -19,8 +19,8 @@ import java.util.UUID;
 @Singleton
 public class WorkerRequestService {
 
-    public final String DELETE_URL = "http://localhost:8080/api/worker/delete/";
-    public final String HIRE_URL = "http://localhost:8080/api/worker/create";
+    public final String DELETE_URL = "http://dick.elcom.spb.ru:8081/fire/";
+    public final String HIRE_URL = "http://dick.elcom.spb.ru:8081/hire/";
 
     public String fireWorker(UUID uuid) {
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
